@@ -1,0 +1,43 @@
+#open file
+def find_weird():
+    file_num = 0
+    files_found = 0
+    for file in range(18000):
+        hex_num = hex(file_num)[2:]
+        f_name = file_name(hex_num)
+        with open('f_name', 'r') as f:
+            content = f.read().splitlines()
+            content = char_count(content)
+        data = chi_square(content)
+        if data > 7: #insert data num here:
+            with open('results.txt','w') as f:
+                f.write(files_found + '. ' + file_name + ': ' + data +'. n\'')
+        files_found += 1
+        file_num +=1
+    return files_found + "out of" + file_num
+                        
+    
+#creates file name
+def file_name(num_hex):
+    name = num_hex + ".txt"
+    return name
+
+#counts letters
+def char_count(string):
+    counts = [0] * 127
+
+    for c in text:
+        ascii_num = ord(c)
+        counts[ascii_num] += 1
+    return counts[32:]
+
+#chi_square
+def chi_square(nums):
+    final = 0
+    expected = 18000/96
+    for num in nums:
+        final += (num-expected)**2/expected
+    return final
+
+print(find_weird())
+
