@@ -1,37 +1,22 @@
-#open file
-def find_weird():
-    file_num = 0
-    files_found = 0
-    for file in range(18000):
-        hex_num = hex(file_num)[2:]
-        f_name = file_name(hex_num)
-        with open('f_name', 'r') as f:
-            content = f.read().splitlines()
-            content = char_count(content)
-        data = chi_square(content)
-        if data > 7: #insert data num here:
-            with open('results.txt','w') as f:
-                f.write(files_found + '. ' + file_name + ': ' + data +'. n\'')
-        files_found += 1
-        file_num +=1
-    return files_found + "out of" + file_num
-                        
-    
-#creates file name
-def file_name(num_hex):
-    name = num_hex + ".txt"
-    return name
 
-#counts letters
-def char_count(string):
+def get_file_name(num):
+    num_hex = hex(num)[2:]
+    name = num_hex + ".txt"
+    num_zero = 8 - len(name)
+    return "0"*num_zero + name
+
+def get_file_content(path):
+     with open(path, 'r') as f:
+         return f.read()
+
+def count_char(text):
     counts = [0] * 127
 
-    for c in text:
-        ascii_num = ord(c)
+    for letter in text:
+        ascii_num = ord(letter)
         counts[ascii_num] += 1
     return counts[32:]
 
-#chi_square
 def chi_square(nums):
     final = 0
     expected = 18000/96
@@ -39,5 +24,18 @@ def chi_square(nums):
         final += (num-expected)**2/expected
     return final
 
-print(find_weird())
+files_found = 0
+num_files = 18000
+threshold = 140.4
 
+for n in range(num_files):
+    file_name = get_file_name(n)
+    text = get_file_content("text_files/file_" + file_name)
+    counts = count_char(text)
+    x_sq = chi_square(counts)
+    if x_sq > threshold:
+        files_found += 1
+        print(file_name, x_sq)
+    if n == num_files:
+        print(str(files_found) + "out of" + str(num_files))
+    
