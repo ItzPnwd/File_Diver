@@ -1,4 +1,3 @@
-
 def get_file_name(num):
     num_hex = hex(num)[2:]
     name = num_hex + ".txt"
@@ -24,18 +23,65 @@ def chi_square(nums):
         final += (num-expected)**2/expected
     return final
 
+def flip_flop(file):
+    result = ""
+    for letter in file:
+        temp = ord(letter)
+        new = 158 - temp
+        letter = chr(new)
+        result += letter
+    return result
+
+def substitution(file):
+    result = ""
+    key = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?"
+    for letter in file:
+        num = key.find(letter)
+        letter = chr(num+32)
+        result += letter
+    return result
+        
+def caesar_cipher(file):
+    result = ""
+    shift = 34
+    for letter in file:
+        character = (ord(letter) - shift)
+        if character < 32:
+            character += 95
+        result += chr(character)
+    return result
+
+def veginere_cipher(file):
+    result = ""
+    key = "enigma"
+    shiftI = 0
+    for letter in file:
+        character = (ord(letter) - ord(key[shiftI]))
+        while character < 32:
+            character += 95
+        result += chr(character)
+        shiftI += 1
+        if shiftI == 6:
+            shiftI = 0
+    return result
+
 files_found = 0
 num_files = 18000
-threshold = 140.4
+threshold = 150
 
-for n in range(num_files):
-    file_name = get_file_name(n)
-    text = get_file_content("text_files/file_" + file_name)
-    counts = count_char(text)
-    x_sq = chi_square(counts)
-    if x_sq > threshold:
-        files_found += 1
-        print(file_name, x_sq)
-    if n == num_files:
-        print(str(files_found) + "out of" + str(num_files))
-    
+##for n in range(num_files):
+##    file_name = get_file_name(n)
+##    text = get_file_content("text_files/file_" + file_name)
+##    counts = count_char(text)
+##    x_sq = chi_square(counts)
+##    if x_sq > threshold:
+##        files_found += 1
+##        print(file_name, x_sq)
+##    if n == num_files:
+##        print(str(files_found) + "out of" + str(num_files))
+
+
+file = get_file_content("text_files/file_30d3.txt")
+print(veginere_cipher(file))
+
+print(veginere_cipher("abc123"))
