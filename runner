@@ -67,21 +67,11 @@ def veginere_cipher(file):
 
 files_found = 0
 num_files = 18000
-threshold = 150
+temp = ""
 
-##for n in range(num_files):
-##    file_name = get_file_name(n)
-##    text = get_file_content("text_files/file_" + file_name)
-##    counts = count_char(text)
-##    x_sq = chi_square(counts)
-##    if x_sq > threshold:
-##        files_found += 1
-##        print(file_name, x_sq)
-##    if n == num_files:
-##        print(str(files_found) + "out of" + str(num_files))
-
-
-file = get_file_content("text_files/file_30d3.txt")
-print(veginere_cipher(file))
-
-print(veginere_cipher("abc123"))
+for n in range(num_files):
+    file_name = get_file_name(n)
+    text = get_file_content("text_files/file_" + file_name)
+    temp += text[0]
+print (temp)
+print (chi_square(count_char(text)))
